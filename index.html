@@ -30,7 +30,8 @@
         .logo {
             display: block;
             margin: 0 auto 1rem;
-            width: 150px;
+            width: 50%
+            max-height: 50px;
         }
 
         nav {
@@ -61,6 +62,10 @@
             flex-wrap: wrap;
             gap: 2rem;
             justify-content: center;
+            background-color: #222222;
+            padding: 2rem;
+            width: 100%;
+            background-size: cover;
         }
 
         .service {
@@ -149,10 +154,40 @@
             }
         }
     </style>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+
+            var formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var confirmationMessage = document.getElementById('confirmationMessage');
+                    if (data.success) {
+                        confirmationMessage.textContent = 'Your message has been sent successfully!';
+                        confirmationMessage.style.color = 'green';
+                    } else {
+                        confirmationMessage.textContent = 'There was an error sending your message. Please try again.';
+                        confirmationMessage.style.color = 'red';
+                    }
+                })
+                .catch(error => {
+                    var confirmationMessage = document.getElementById('confirmationMessage');
+                    confirmationMessage.textContent = 'There was an error sending your message. Please try again.';
+                    confirmationMessage.style.color = 'red';
+                });
+        });
+    </script>
 </head>
 <body>
 <header>
-    <img src="logo.png" alt="Green Edge Lawn Care Logo" class="logo">
+    <img id="logo" src="images/geLogoFull.png" alt="Green Edge Lawn Care Logo" class="logo">
     <h1>Lawn Care | Landscaping | Exterior</h1>
     <p>Creating a greener, healthier lawn and living space for your home or business</p>
 </header>
@@ -168,6 +203,7 @@
     <p>We are a team of experienced lawn care professionals dedicated to providing exceptional services. From mowing to fertilization, your lawn space will be the envy of the neighborhood.</p>
 
     <div class="service-areas">
+
         <h3>Our Service Areas</h3>
         <ul>
             <li>Tazewell, North Tazewell, Richlands VA</li>
@@ -180,6 +216,7 @@
 </section>
 
 <section id="services">
+    <hr>
     <h2>Our Services</h2>
     <div class="services">
         <div class="service">
@@ -199,9 +236,11 @@
 
 
 <section id="contact">
+    <hr>
     <h2>Contact Us</h2>
     <p>Call or Text us at <a href="tel:276-285.0163">276.285.0163</a> or email us at <a href="mailto:mattestin@gmail.com">matt@greenedgelle.com</a></p>
-    <form action="#" method="POST">
+    <div id="confirmationMessage"></div>
+    <form id="contactForm" action="" method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" placeholder="Your Name" required>
 
@@ -217,6 +256,7 @@
 
 <footer>
     <p>&copy; 2025 Green Edge LLE LLC. All rights reserved. | <a href="#">Privacy Policy</a></p>
+    <p>Developed By: <a href="#">Matt Estin</a></p>
 </footer>
 </body>
 </html>
